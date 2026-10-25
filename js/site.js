@@ -35,7 +35,7 @@
     msgs[msgIndex].classList.add("is-on");
   }, 4200);
 
-  var CA = "0x9811ea1264592cdd442ca4216808dc81c645ac7b";
+  var CA = "TBA";
 
   function copyCA() {
     var done = function () { say("Contract copied"); };
@@ -100,15 +100,17 @@
       el.classList.toggle("is-down", n < 0);
     });
   }
-  fetch("https://api.dexscreener.com/latest/dex/tokens/" + CA)
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      var pairs = (data && data.pairs) || [];
-      var pair = pairs.filter(function (item) { return item.chainId === "bsc"; })
-        .sort(function (a, b) { return (b.liquidity && b.liquidity.usd || 0) - (a.liquidity && a.liquidity.usd || 0); })[0];
-      if (pair) fillStats(pair);
-    })
-    .catch(function () {});
+  if (/^0x[a-fA-F0-9]{40}$/.test(CA)) {
+    fetch("https://api.dexscreener.com/latest/dex/tokens/" + CA)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var pairs = (data && data.pairs) || [];
+        var pair = pairs.filter(function (item) { return item.chainId === "bsc"; })
+          .sort(function (a, b) { return (b.liquidity && b.liquidity.usd || 0) - (a.liquidity && a.liquidity.usd || 0); })[0];
+        if (pair) fillStats(pair);
+      })
+      .catch(function () {});
+  }
 
   var sections = ["lore", "road", "market", "scenes", "memes", "buy"].map(function (id) {
     return document.getElementById(id);
