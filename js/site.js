@@ -35,7 +35,7 @@
     msgs[msgIndex].classList.add("is-on");
   }, 4200);
 
-  var CA = "TBA";
+  var CA = "0xde753c312d7a54a3c37a704a4b082d7d265beb0d";
 
   function copyCA() {
     var done = function () { say("Contract copied"); };
